@@ -2,56 +2,37 @@
 layout: default
 ---
 
-<!-- Blog Post Breadcrumbs -->
-{%- include blog_post_breadcrumb.html -%}
+<div id="post" class="container">
 
-<div class="row" id="blog-post-container">
+	<div class="postthumb"><img src="/thumbnails/{{ page.thumbnail }}" /></div>
 
-        <div class="col-lg-8 offset-md-2">
+	<h1>{{ page.title }}</h1>
 
-           {%- include blog_post_article.html -%}
+	<div class="meta clearfix">
+		<strong>Author:</strong> {{ page.author }}
 
-           {%- include blog_post_comments.html -%}
-        </div>
+		{% if page.license %}
+			<br /><strong>License:</strong> {{ page.license }}
+		{% endif %}
+
+		<br /><br />
+		{% if page.homepage %}
+			<a class="btn" href="{{ page.homepage }}"><i class="icon-home"></i> Homepage</a>
+		{% endif %}
+		{% if page.download %}
+			<a class="btn" href="{{ page.download }}"><i class="icon-download-alt"></i> Download</a>
+		{% endif %}
+		{% if page.demo %}
+			<a class="btn" href="{{ page.demo }}"><i class="icon-road"></i> Demo</a>
+		{% endif %}
+		{% if page.license_link %}
+			<a class="btn" href="{{ page.license_link }}"><i class="icon-file"></i> License</a>
+		{% endif %}
+	</div>
 
 
-
-</div> <!-- End of row-->
-
-<div class="row">
- <div class="col-md-4">
-    <div class="card">
-        <div class="card-header"> About </div>
-        <div class="card-body">
-            <!-- Your Bio -->
-            <p class="author_bio"> {{ site.author_bio }}</p>
-
-            {%- include github_star_button.html -%}
-        </div>
-    </div>
- </div>
- <div class="col-md-4">
-    <div class="card">
-        <div class="card-header">Categories </div>
-        <div class="card-body text-dark">
-            {%- include blog_categories.html -%}
-        </div>
-    </div>
-   </div>
-    <div class="col-md-4">
-    <div class="card">
-        <div class="card-header">Useful Links </div>
-        <div class="card-body text-dark">
-            {% for i in site.urls %}
-               <li >
-                 <a href="{{ site.url}}{{site.baseurl}}{{ i.url }}">{{ i.text }}</a>
-              </li>
-           {% endfor %}
-        </div>
-    </div>
-   </div>
+	<div class="post-content">
+	{{ content }}
+	</div>
 
 </div>
-
-
-
