@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LED Watch — Evan Finkle</title>
+<meta name="description" content="A case-less, solar-charged wristwatch whose face is 132 tiny white LEDs: board, power, firmware and a working browser simulator.">
+<meta property="og:title" content="LED Watch">
+<meta property="og:description" content="A case-less, solar-charged LED wristwatch: custom board, firmware, and a working simulator in the browser.">
+<meta property="og:image" content="https://stuperbad.com/led-watch/img/top.png">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e1220; --panel:#161c2e; --panel2:#1b2238; --line:#2a3350;
+  --ink:#e6ebfa; --dim:#9aa5c6; --acc:#ffd54a; --ok:#6fe3a0; --warn:#ffb86b;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "Source Sans Pro",system-ui,Segoe UI,sans-serif}
+a{color:var(--acc);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;height:auto;display:block}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+nav.top{display:flex;justify-content:space-between;align-items:center;padding:18px 0;font-size:15px;color:var(--dim)}
+nav.top a.brand{color:var(--ink);font-weight:600;letter-spacing:.02em;white-space:nowrap}
+nav.top .links a{margin-left:20px;color:var(--dim)}
+@media (max-width:560px){nav.top .links a{margin-left:12px;font-size:14px}nav.top .links a:nth-child(3){display:none}}
+nav.top .links a:hover{color:var(--acc);text-decoration:none}
+
+.hero{padding:34px 0 10px;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.hero h1{font-size:60px;line-height:1.02;margin:0 0 14px;font-weight:700;letter-spacing:-.01em}
+.hero h1 span{color:var(--acc)}
+.hero p.lead{font-size:21px;color:#cfd7f0;margin:0 0 22px;font-weight:300}
+.status{display:inline-block;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:8px;padding:10px 14px;font-size:15px;color:#d4dbf2;margin-bottom:24px}
+.status b{color:var(--warn)}
+.btns a{display:inline-block;padding:11px 20px;border-radius:9px;font-weight:600;margin:0 10px 10px 0;font-size:16px}
+.btns a.p{background:var(--acc);color:#1d1d1d}
+.btns a.s{border:1px solid var(--line);color:var(--ink);background:var(--panel)}
+.btns a:hover{text-decoration:none;filter:brightness(1.08)}
+.hero .pic{position:relative}
+.hero .pic img{filter:drop-shadow(0 18px 30px rgba(0,0,0,.55))}
+
+section{padding:46px 0 6px}
+h2{font-size:32px;margin:0 0 6px;font-weight:700}
+h2 small{display:block;font-size:14px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin-bottom:6px}
+p.sub{color:var(--dim);margin:0 0 22px;max-width:760px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h3{margin:0 0 6px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-weight:600}
+.card p{margin:0;font-size:16px;line-height:1.5}
+
+.boards{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:6px}
+.boards figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+.boards img{max-height:520px;margin:0 auto}
+.boards figcaption{margin-top:12px;color:var(--dim);font-size:15px}
+.boards figcaption b{color:var(--ink)}
+
+.simwrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.simbar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line);font-size:14px;color:var(--dim)}
+.simbar a{font-weight:600}
+iframe#sim{width:100%;height:880px;border:0;display:block;background:var(--bg)}
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+.tips .card p{font-size:15px;color:#cdd5ee}
+kbd{background:#232c47;border:1px solid var(--line);border-radius:4px;padding:0 5px;font-size:.9em}
+
+.timeline{position:relative;margin:8px 0 0;padding-left:26px;border-left:2px solid var(--line)}
+.ev{position:relative;margin:0 0 22px}
+.ev::before{content:"";position:absolute;left:-34px;top:7px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:3px solid var(--acc)}
+.ev.fix::before{border-color:var(--ok)}
+.ev .d{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);font-weight:700}
+.ev.fix .d{color:var(--ok)}
+.ev h3{margin:2px 0 4px;font-size:21px}
+.ev p{margin:0;color:#cdd5ee;font-size:16.5px}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.box h3{margin:0 0 8px;font-size:19px}
+.box ul{margin:0;padding-left:20px;color:#cdd5ee;font-size:16px}
+.box li{margin:5px 0}
+.box.todo{border-left:4px solid var(--warn)}
+.box.done{border-left:4px solid var(--ok)}
+
+table.spec{width:100%;border-collapse:collapse;font-size:16px}
+table.spec td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
+table.spec td:first-child{color:var(--dim);width:150px;white-space:nowrap}
+
+.docs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 26px;list-style:none;padding:0;margin:0}
+.docs li{padding:9px 0;border-top:1px solid var(--line);font-size:16px}
+.docs li span{display:block;color:var(--dim);font-size:14.5px}
+
+footer{margin-top:60px;padding:28px 0 50px;border-top:1px solid var(--line);color:var(--dim);font-size:14.5px}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr}
+  .hero h1{font-size:44px}
+  .cards,.tips,.two,.boards,.docs{grid-template-columns:1fr}
+  iframe#sim{height:1500px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav class="top">
+  <a class="brand" href="/">Evan Finkle</a>
+  <div class="links"><a href="#simulator">Simulator</a><a href="#board">Board</a><a href="#story">Development</a><a href="#docs">Docs</a></div>
+</nav>
+
+<header class="hero">
+  <div>
+    <h1>LED <span>Watch</span></h1>
+    <p class="lead">A wristwatch with no case and no screen: the face is 132 tiny white LEDs, charged by a solar cell, driven by one microcontroller. Board, power system, firmware and a working simulator, designed from scratch.</p>
+    <div class="status"><b>Status, 21 Oct 2026:</b> revision A is designed, checked and quoted for assembly. It has <b>not been ordered or built yet</b>, so nothing has been powered up. Everything below is design work, simulation and review.</div>
+    <div class="btns">
+      <a class="p" href="#simulator">Try the simulator</a>
+      <a class="s" href="https://github.com/stuperbad/LED-Watch/tree/main/single-color">Source on GitHub</a>
+    </div>
+  </div>
+  <div class="pic"><img src="img/top.png" alt="Front of the LED Watch circuit board: rings of tiny LEDs around a centre reserved for a solar cell"></div>
+</header>
+
+<section id="what">
+  <h2><small>What it is</small>One board, front and back</h2>
+  <p class="sub">The LEDs and the solar cell are on the front. Everything else (microcontroller, power chip, battery plugs, buzzer) is on the back, so the watch is as thin as the parts allow.</p>
+  <div class="cards">
+    <div class="card"><h3>Display</h3><p>132 white LEDs on three rings: 12 for hours, 60 for minutes, 60 for seconds, each turned to its true angle on the dial. Seven more LEDs name the mode and double as weekday lights.</p></div>
+    <div class="card"><h3>Brain</h3><p>Microchip AVR128DB48 with a 32.768 kHz crystal. The 144-position LED grid is multiplexed straight from the chip's pins: no driver chips.</p></div>
+    <div class="card"><h3>Power</h3><p>A small solar cell feeds a TI BQ25570 energy harvester that charges two 70 mAh LiPo pouches. Sleep current target: a few microamps.</p></div>
+    <div class="card"><h3>Senses</h3><p>An ST LIS2DW12 accelerometer wakes the watch on a wrist raise or double tap (about 1 µA while waiting). A piezo buzzer rings the alarm.</p></div>
+    <div class="card"><h3>Controls</h3><p>Two buttons, low on the face. Modes: time, set, stopwatch, alarm, battery, settings, and a games menu with seven toys played on the LED rings.</p></div>
+    <div class="card"><h3>Made by</h3><p>42 mm round board, four layers, assembled by JLCPCB. Designed by Evan Finkle with Claude (Anthropic) doing research, scripting and layout automation.</p></div>
+  </div>
+</section>
+
+<section id="board">
+  <h2><small>The hardware</small>Revision A</h2>
+  <p class="sub">Rendered from the actual KiCad board file that was sent for quoting. Two strap slots, a 42 mm circle, 197 parts.</p>
+  <div class="boards">
+    <figure><img src="img/top.png" alt="Front side of the board"><figcaption><b>Front.</b> Hour, minute and second LED rings; the two buttons; the mode LEDs (SET, TMR, ALM, BAT, FUN, CFG, LCK) with weekday letters; the accelerometer; the two gold pads where the solar cell sits.</figcaption></figure>
+    <figure><img src="img/bottom.png" alt="Back side of the board"><figcaption><b>Back.</b> The BQ25570 harvester and its two inductors, the two battery plugs (with + / - marks), the buzzer, and the four programming pads on the left edge (reset, battery, ground, UPDI).</figcaption></figure>
+  </div>
+</section>
+
+<section id="simulator">
+  <h2><small>Try it</small>The simulator</h2>
+  <p class="sub">This runs the same logic as the watch's firmware, on the real LED positions and pin map taken from the board file. The watch starts asleep, like the real one: press LEFT or RIGHT, or the <b>Raise wrist</b> button, to wake it. Then click through the modes, tilt it, play the games. The status panel shows the LED current, the scan plan and the battery model.</p>
+  <div class="simwrap">
+    <div class="simbar"><span>Live simulator (the firmware logic, running in your browser)</span><a href="sim/index.html" target="_blank" rel="noopener">Open full screen ↗</a></div>
+    <iframe id="sim" src="sim/index.html" title="LED Watch simulator" loading="lazy"></iframe>
+  </div>
+  <div class="tips">
+    <div class="card"><h3>Buttons</h3><p><kbd>Z</kbd> / <kbd>←</kbd> left, <kbd>X</kbd> / <kbd>→</kbd> right. Hold left for one second to open mode selection from anywhere.</p></div>
+    <div class="card"><h3>Motion</h3><p>Drag the tilt pad, or use <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd>. <kbd>R</kbd> raises the wrist, <kbd>T</kbd> double-taps, <kbd>Space</kbd> shakes.</p></div>
+    <div class="card"><h3>Time and power</h3><p>Speed the clock up to 600x, drain the battery, add sunlight, and watch how the brightness follows the battery voltage.</p></div>
+  </div>
+</section>
+
+<section id="story">
+  <h2><small>Development so far</small>How it got here</h2>
+  <p class="sub">Sixteen days from a one-page brief to a board ready to order. The reasoning behind every decision is written down in the repository's decision log; this is the short version.</p>
+  <div class="timeline">
+
+    <div class="ev"><div class="d">5 Oct</div><h3>The brief, and a clock-face generator</h3>
+      <p>White LEDs only, one individually placed LED per second, minute and hour, each turned to its true radial angle: 6 degrees apart on the minute and second rings, 30 degrees on the hour ring. A script places the rings from a few parameters, so the tightest layout that still routes can be found by search instead of by hand.</p></div>
+
+    <div class="ev"><div class="d">11–14 Oct</div><h3>Simulator first, firmware second</h3>
+      <p>The two-button interface (hold left to choose a mode, then left/right to move, wait to enter) was designed and built in the browser simulator before any hardware existed. The logic was then ported to portable C for the AVR and checked against the simulator frame for frame: 20 scenarios match exactly, with 71 unit checks and 197 hardware-layer checks passing. The AVR build is 31.7 KB of the chip's 128 KB flash.</p></div>
+
+    <div class="ev"><div class="d">12 Oct</div><h3>A power system built from in-stock parts</h3>
+      <p>A solar cell, a BQ25570 harvester and two small LiPo pouches. The harvester's three resistor ladders (battery overvoltage, battery-good, 3.3 V output) were recomputed from the datasheet equations and re-picked from values JLCPCB actually has in stock.</p></div>
+
+    <div class="ev"><div class="d">13–14 Oct</div><h3>Hand placement, scripted routing</h3>
+      <p>Evan placed the parts by hand in KiCad. Scripts then did the rest: a polar router for the LED rings, a grid router for the remainder, a ground plane, and pad-by-pad clean-up. The schematic is generated from a script and compared to the routed board connection by connection. First JLCPCB quote for five assembled boards: $308.63.</p></div>
+
+    <div class="ev"><div class="d">15 Oct</div><h3>Cleaner copper</h3>
+      <p>A pass that redrew traces in clean 45-degree moves cut the number of odd-angle pieces from 790 to 53, and moved traces out from under the microcontroller and the power chip.</p></div>
+
+    <div class="ev fix"><div class="d">18 Oct</div><h3>The pre-order review found two things</h3>
+      <p>Every pin of the harvester was checked against its datasheet. The 3.3 V divider was outside the datasheet's recommended range, so it was changed (output 3.309 V). Then the review of the battery plug found it was <b>wired backwards</b> compared with the battery maker's own wiring. Pin 1 had been battery-plus; theirs is ground. It was swapped on the board and schematic, and plus/minus marks were added to the silkscreen. This is exactly the kind of mistake that would have killed the first power-up.</p></div>
+
+    <div class="ev fix"><div class="d">19–21 Oct</div><h3>Final checks</h3>
+      <p>Board rule check: 0 errors, 0 unconnected nets. JLCPCB's manufacturability checker and its assembly checker (with the parts list and placement file loaded) flag only quirks of its part models, not copper problems. Final quote: about $312 for five assembled boards, plus shipping. Also written for the first power-up: a test plan that needs only a multimeter.</p></div>
+  </div>
+</section>
+
+<section id="how">
+  <h2><small>Facts and numbers</small>The details</h2>
+  <table class="spec">
+    <tr><td>Board</td><td>42 mm round with two strap lugs, 4 layers, 1.6 mm; 0.10 mm tracks and spaces, 0.15 mm vias; black with gold finish</td></tr>
+    <tr><td>LEDs</td><td>12 × 0603, 60 × 0402 and 60 × 0201 white LEDs on three rings; 7 × 0402 mode LEDs</td></tr>
+    <tr><td>Scan</td><td>12 rows × 12 columns, one row at a time, about 3 LEDs lit at once; brightness follows the battery voltage</td></tr>
+    <tr><td>Harvesting</td><td>cell open-circuit about 2.1 V in full sun; charge stops at 4.12 V; battery-good flag falls at 3.31 V</td></tr>
+    <tr><td>Sleep</td><td>target 3–5 µA; the accelerometer waits at about 1 µA (5 µA with double-tap detection on)</td></tr>
+    <tr><td>Programming</td><td>four pogo pads on the back (reset, battery, ground, UPDI); no connector parts</td></tr>
+    <tr><td>Parts list</td><td>26 line items, all stocked by JLCPCB; the solar cell is soldered by hand</td></tr>
+  </table>
+</section>
+
+<section id="next">
+  <h2><small>Honest status</small>What's done, what isn't</h2>
+  <div class="two">
+    <div class="box done"><h3>Done</h3>
+      <ul>
+        <li>Complete schematic and routed 4-layer board</li>
+        <li>Firmware core in C and a matching browser simulator</li>
+        <li>Review of the power design and every harvester pin</li>
+        <li>Quote and manufacturability checks for assembly</li>
+        <li>Bring-up test plan that needs no oscilloscope</li>
+      </ul></div>
+    <div class="box todo"><h3>Still open</h3>
+      <ul>
+        <li>The boards have not been ordered, built or powered</li>
+        <li>No firmware has run on a real chip yet</li>
+        <li>Solar charge rate is estimated, not measured</li>
+        <li>The accelerometer's land pattern is the stock one (the maker's note was unavailable)</li>
+        <li>A second pair of eyes on the power block, the crystal and the battery plugs</li>
+      </ul></div>
+  </div>
+</section>
+
+<section id="docs">
+  <h2><small>For reviewers</small>Read more</h2>
+  <p class="sub">Everything is public in one repository: the KiCad project, the scripts, the firmware, the simulator, and the decision log.</p>
+  <ul class="docs">
+    <li><a href="https://github.com/stuperbad/LED-Watch/blob/main/single-color/README.md">Project overview</a><span>folder map, parts, how to rebuild everything</span></li>
+    <li><a href="https://github.com/stuperbad/LED-Watch/blob/main/single-color/docs/REVIEW-GUIDE.md">Review guide</a><span>the parts worth a second pair of eyes</span></li>
+    <li><a href="https://github.com/stuperbad/LED-Watch/blob/main/single-color/docs/PRE-ORDER-REVIEW-2026-10-18.md">Pre-order review</a><span>the pin-by-pin power check and the battery polarity finding</span></li>
+    <li><a href="https://github.com/stuperbad/LED-Watch/blob/main/single-color/docs/BRING-UP-TESTS.md">Bring-up tests</a><span>how to prove it works with a multimeter</span></li>
+    <li><a href="https://github.com/stuperbad/LED-Watch/blob/main/single-color/docs/DECISION-LOG.md">Decision log</a><span>why things are the way they are, day by day</span></li>
+    <li><a href="https://github.com/stuperbad/LED-Watch/blob/main/single-color/docs/DESIGN-UX.md">Modes and buttons</a><span>the full interface spec</span></li>
+    <li><a href="https://github.com/stuperbad/LED-Watch/blob/main/single-color/docs/SCHEMATIC-GUIDE.md">Schematic guide</a><span>what every part is for</span></li>
+    <li><a href="https://github.com/stuperbad/LED-Watch/tree/main/single-color/firmware">Firmware and simulator</a><span>C core, hardware layer, tests</span></li>
+  </ul>
+</section>
+
+<footer>
+  Designed by Evan Finkle, with Claude (Anthropic) as research, scripting and layout assistant. Page updated 21 Oct 2026. <a href="/">stuperbad.com</a>
+</footer>
+
+</div>
+</body>
+</html>
