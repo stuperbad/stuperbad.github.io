@@ -461,6 +461,19 @@ a.icon {
   margin: 0;
 }
 
+
+/* whole card is the link */
+#portfolio .portfolio-thumb .portfolio-overlay .portfolio-item a::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+}
+#portfolio .portfolio-thumb { cursor: pointer; }
+
 /*filter css*/
 .filter-wrapper {
     width: 100%;
