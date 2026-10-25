@@ -38,7 +38,7 @@ h1,h2,h3,h4 {
 h1 {
   color: #000;
   font-size: 1.8rem;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 h2 {
@@ -115,8 +115,8 @@ nav a {
 
 .navbar {
   background: transparent;
-  height: 94px;
-  max-height: 94px;
+  height: 68px;
+  max-height: 68px;
   margin: 0;
   border-radius: 0;
   transition: all 0.3s ease;
@@ -131,12 +131,12 @@ nav a {
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   text-transform: uppercase;
-  letter-spacing: 0.3rem;
+  letter-spacing: 0.12rem;
 }
 .brand a {
   color: #333;
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 400;
   opacity: 1;
   text-decoration: none;
 }
@@ -384,25 +384,38 @@ a.icon {
   padding-top: 120px !important;
 }
 
-.header-one {
+.header-one, .header-two,
+.header-three, .header-four,
+.header-five {
   height: auto !important;
   min-height: 0 !important;
-  padding-top: 12px !important;
+  padding-top: 6px !important;
   padding-bottom: 0 !important;
 }
-.header-one .header-thumb {
-  padding: 14px 20px 10px 20px !important;
-  border-width: 6px;
+.header-one .header-thumb,
+.header-two .header-thumb,
+.header-three .header-thumb,
+.header-four .header-thumb,
+.header-five .header-thumb {
+  padding: 10px 20px 8px 20px !important;
+  border-width: 5px;
 }
-.header-one .header-thumb h1 {
+#header .header-thumb h1 {
+  font-size: 1.3rem;
   margin-top: 0;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
+  letter-spacing: 0.15rem;
 }
-.header-one .header-thumb h3 {
+#header .header-thumb h3 {
+  font-size: 12px;
   margin-bottom: 0;
+  letter-spacing: 3px;
 }
-.header-one + #portfolio {
-  padding-top: 1.25rem;
+.header-one + #portfolio,
+.header-two + #single-project,
+.header-three + #single-project,
+.header-three + #about {
+  padding-top: 2rem;
 }
 .header-two,
 .header-three,
@@ -841,9 +854,11 @@ footer {
 	padding-top: 80px !important;
   }
 
-  .header-one {
-    min-height: 0;
-    padding-top: 12px !important;
+  .header-one, .header-two,
+  .header-three, .header-four,
+  .header-five {
+    min-height: 0 !important;
+    padding-top: 6px !important;
   }
 
   #about .col-md-4,
