@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/ionicons.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,300' rel='stylesheet' type='text/css'>
+  <script>if(/[?&]embed=1/.test(location.search))document.documentElement.className+=" embedded";</script>
 </head>
 <body>
 
@@ -32,9 +33,10 @@
                   <ul id="nav-menu">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
-                    <li><a href="resume.html">Resume</a></li>
+                    <li><a href="resume.html" data-doc="resume">Resume</a></li>
+                    <li><a href="cv.html" data-doc="cv">CV</a></li>
                     <li><a href="https://90percentart.blogspot.com" target="_blank" rel="noopener">Blog</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="contact.html" data-doc="contact">Contact</a></li>
                   </ul>
                 </div>
               </div>
@@ -61,20 +63,23 @@
 
 <section id="about">
   <div class="container">
+    <div class="doc-head">
+      <h1>Evan Finkle</h1>
+      <p class="doc-kind">Resume</p>
+      <p><a href="mailto:evanfinkle@gmail.com">evanfinkle@gmail.com</a> &nbsp;·&nbsp; Los Angeles, California &nbsp;·&nbsp; <a href="contact.html" data-doc="contact">Contact</a></p>
+    </div>
     <div class="row">
 
-      <div class="col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-4">
+      <div class="col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-4 doc-side">
         <h4>Contact</h4>
         <p><a href="mailto:evanfinkle@gmail.com">evanfinkle@gmail.com</a><br>
-        Glendale, California</p>
+        Los Angeles, California</p>
         <h4>Links</h4>
         <ul class="list-unstyled">
           <li><a href="https://www.instagram.com/90percent.art" target="_blank">@90percent.art</a></li>
           <li><a href="https://github.com/stuperbad" target="_blank">github/stuperbad</a></li>
           <li><a href="https://90percentart.blogspot.com" target="_blank" rel="noopener">90percentart blog</a></li>
         </ul>
-        <h4>Languages</h4>
-        <p>English (fluent)<br>Spanish (proficient)</p>
       </div>
 
       <div class="col-md-7 col-sm-7">
@@ -133,6 +138,10 @@
         <p>Collaborator, 90PERCENTART (<a href="https://www.instagram.com/90percent.art" target="_blank">@90percent.art</a>)<br>
         Teaching Assistant, Mechanical Engineering Capstone<br>
         Teaching Assistant, Engineering Design Studio</p>
+
+        <hr>
+        <h3>Languages</h3>
+        <p>English (fluent)<br>Spanish (proficient)</p>
 
       </div>
 
