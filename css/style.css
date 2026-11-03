@@ -1006,3 +1006,61 @@ footer {
 }
 
 .embedded .doc-side { display: none; }
+
+/* Dark theme (stuperbad.com)
+/* ========================================== */
+html { background: #0d0d10; }
+body { background: #0d0d10; color: #c9c9d0; }
+h1 { color: #f2f2f5; }
+h2 { color: #f2f2f5; }
+h3 { color: #a9a9b3; }
+h4, h5 { color: #e4e4e9; }
+p { color: #a4a4ad; }
+a:hover, a:focus { color: #ffffff; }
+strong { color: #dcdce2; font-weight: 700; }
+hr { border-top-color: #26262c; }
+::selection { background: #35F2FF; color: #07060F; }
+
+nav a, .brand a, .nav-text-light a { color: #e4e4e9; }
+.circle i { color: #e4e4e9; }
+.circle.dark { border-color: #6b6b75; }
+.circle.dark:before { border-color: transparent transparent transparent #6b6b75; }
+.sticky nav.nav-inner .navbar { background: #0d0d10; }
+.sticky .nav-text-light a { color: #e4e4e9; }
+@media all and (max-width: 990px) {
+  .nav-text-light a { color: #e4e4e9; }
+  .nav-inner { background: #0d0d10; }
+  .transparent { background: transparent; }
+}
+
+#header .header-thumb { background: #131317; border-color: #1c1c21; }
+#header .header-thumb h1 { color: #f2f2f5; }
+
+.filter-wrapper li a { color: #8d8d97; }
+.filter-wrapper li a.selected,
+.filter-wrapper li a:active,
+.filter-wrapper li a:hover,
+.filter-wrapper li a:focus { background: #f2f2f5; color: #0d0d10; }
+.portfolio-placeholder { background: #1a1a1f; }
+
+#single-project .project-info h4,
+#single-project h4 { color: #e4e4e9; }
+#contact .col-md-4 { background: #131317; }
+blockquote { border-left-color: #35353d; color: #a4a4ad; }
+.google_map, .contact-form .form-control { background: #131317; color: #e4e4e9; border-color: #2a2a31; }
+
+footer { background: #08080a; }
+
+/* the Resume / CV / Contact sheet, dark */
+.doc-overlay { background: rgba(0, 0, 0, 0.7); }
+.doc-sheet, .doc-frame { background: #131317; }
+.doc-sheet { box-shadow: 0 12px 60px rgba(0, 0, 0, 0.8); }
+.doc-close { background: #f2f2f5; color: #0d0d10; }
+.doc-close:hover { background: #fff; }
+.embedded body { background: #131317; }
+.embedded .doc-head { border-bottom-color: #2a2a31; }
+.embedded .doc-head h1 { color: #f2f2f5; }
+.embedded .doc-head .doc-kind { color: #a9a9b3; opacity: 1; }
+.btn-doc { border-color: #8d8d97; color: #e4e4e9; }
+.btn-doc:hover { background: #f2f2f5; color: #0d0d10; }
+.contact-minimal .contact-links { opacity: 1; color: #a4a4ad; }

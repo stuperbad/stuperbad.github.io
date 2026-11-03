@@ -1,6 +1,6 @@
 # stuperbad.com
 
-Static portfolio site (GitHub Pages, served from `master`). Plain HTML/CSS/JS, no build step.
+Casual, personal site (GitHub Pages, served from `master`): daily games, random projects, a dark theme. The professional portfolio now lives at www.evanfinkle.com in the `stuperbad/EF-portfolio-site` repo (it started as a copy of this site; the two diverge from here). Plain HTML/CSS/JS, no build step.
 Preview locally with `python3 -m http.server` and open `index.html`.
 
 ## Publishing workflow (authorized by Evan)
