@@ -67,8 +67,8 @@ $(document).ready(function() {
   });
 
 
-  /* Resume / CV / Contact overlay: the page dims and the document opens in a sheet. */
-  var docPages = { resume: 'Resume', cv: 'Curriculum Vitae', contact: 'Contact' };
+  /* Contact overlay: the page dims and the document opens in a sheet. */
+  var docPages = { contact: 'Contact' };
   var $overlay = null, lastFocus = null;
 
   function buildOverlay() {
@@ -90,6 +90,7 @@ $(document).ready(function() {
     lastFocus = document.activeElement;
     $('.list-menu').removeClass('reveal-modal');
     $overlay.find('iframe').attr('title', docPages[name]).attr('src', name + '.html?embed=1');
+    $overlay.find('.doc-sheet').toggleClass('doc-short', name === 'contact');
     $overlay.attr('aria-hidden', 'false').addClass('open');
     $('body').addClass('doc-open');
     $overlay.find('.doc-close').focus();

@@ -1092,3 +1092,7 @@ footer { background: #08080a; }
   border-color: transparent;
   box-shadow: none;
 }
+
+/* Contact sheet: sized to its content, and one shade inside the frame */
+html.embedded { background: #131317; }
+.doc-sheet.doc-short { height: 400px; max-height: 90vh; }
